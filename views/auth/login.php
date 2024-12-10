@@ -15,7 +15,6 @@ if (session_status() === PHP_SESSION_NONE) {
     <title>Login - Sistema de Productos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-
 </head>
 <body class="bg-light">
     <div class="container">
@@ -24,7 +23,9 @@ if (session_status() === PHP_SESSION_NONE) {
                 <div class="card shadow">
                     <div class="card-body">
                         <h2 class="text-center mb-4">Iniciar Sesión</h2>
-                        <div id="loginAlert"></div>
+                        <div id="loginAlert">
+
+                        </div>
                         <form id="loginForm" onsubmit="login(event)">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Usuario</label>

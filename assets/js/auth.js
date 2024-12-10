@@ -30,7 +30,7 @@ async function login(event) {
       //icon: "success",
     //}).then(() => {
       //Redireccionar a la pagina web
-      window.location.href = "/web";
+      window.location.href = "web";
     //});
   } catch (error) {
     showAlertAuth("loginAlert", "error", "Error al iniciar sesion".error);
@@ -38,13 +38,49 @@ async function login(event) {
   }
 }
 
-function register() {
-  //EventTarget.preventDefault();
-  //const nombreUsuario = document.getElementById('full_name').value;
-  //const claveUsuario = document.getElementById('username').value;
-  //const emailUsuario = document.getElementById('email').value;
-  //const passwordUsuario = document.getElementById('password').value;
-  //const confirm_passwordUsuario = document.getElementById('confirm_password').value;
+async function register(e) {
+  e.preventDefault();
+  const nombreCompleto = document.getElementById('full_name').value;
+  const usuario = document.getElementById('username').value;
+  const email= document.getElementById('email').value;
+  const clave = document.getElementById('password').value;
+  const confirmarClave = document.getElementById('confirm_password').value;
+
+  try {
+    const respuesta = await fetch("auth/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      nombreCompleto,
+      usuario,
+      email,
+      clave,
+      confirmarClave, 
+    }),
+  });
+
+  const respuestaJson = await respuesta.json();
+
+  if (respuestaJson.status === "error"){
+    showAlertAuth("registerAlert", "error", respuestaJson.message);
+    return false;
+  }
+
+  showAlertAuth("registerAlert", "success", respuestaJson.message);
+
+  setTimeout(() => {
+    window.location.href = "login";
+  }, 200); 
+  } catch (error) {
+    showAlertAuth("registerAlert", "error", "Error al Registrar: ".error);
+    return false;
+    
+  }
+
+
+  
 }
 
 function showAlertAuth(containerId, type, message) {

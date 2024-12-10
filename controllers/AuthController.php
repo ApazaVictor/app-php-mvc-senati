@@ -37,8 +37,29 @@ class AuthController{
 
             $usuario = $this->usuario->login($data->nombreUsuario, $data->claveUsuario);
 
-            var_dump($usuario);
+            if($usuario){
+                session_start();
+                $_SESSION['id_usuario'] = $usuario['id_usuario'];
+                $_SESSION['usuario'] = $usuario['nombre_usuario'];
+                $_SESSION['rol'] = $usuario['rol'];
+                $_SESSION['correo'] = $usuario['correo'];
+                $_SESSION['nombre_completo'] = $usuario['nombre_completo'];
 
+                echo json_encode([
+                   'status' => 'success',
+                   'message' => 'Login Exitoso',
+                   'usuario' => [
+                    'nombre_usuario' => $usuario['id_usuario'],
+                    'rol' => $usuario['rol'],
+                    'nombre_completo' => $usuario['nombre_completo'],
+                   ]
+                ]);
+
+            }else{
+                throw new Exception('Usuario y Contraseña incorrectos');
+            }
+
+            //var_dump($usuario);           
             //var_dump($data->nombreUsuario);
         } catch (Exception $e) {
             echo json_encode([
@@ -46,6 +67,27 @@ class AuthController{
                 'message'=>$e->getMessage()
             ]);
             
+        }
+    }
+
+    public function register(){
+        header('Content-Type: application/json');
+    
+        try {
+            $data = json_decode(file_get_contents("php://input"));
+    
+    
+            // Comparar y validar los dos campos de la contraseña
+            if($data->clave !== $data->confirmarClave){
+                throw new Exception('Las contraseñas no coinciden');
+            }
+            
+    
+        } catch (Exception $e) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
         }
     }
 }
