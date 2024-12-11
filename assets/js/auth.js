@@ -40,11 +40,12 @@ async function login(event) {
 
 async function register(e) {
   e.preventDefault();
-  const nombreCompleto = document.getElementById('full_name').value;
-  const usuario = document.getElementById('username').value;
-  const email= document.getElementById('email').value;
-  const clave = document.getElementById('password').value;
-  const confirmarClave = document.getElementById('confirm_password').value;
+  const nombreCompleto = document.getElementById("full_name").value;
+  const usuario = document.getElementById("username").value;
+  const email= document.getElementById("email").value;
+  const clave = document.getElementById("password").value;
+  const confirmarClave = document.getElementById("confirm_password").value;
+  const rol = document.getElementById("rol").value;
 
   try {
     const respuesta = await fetch("auth/register", {
@@ -57,7 +58,8 @@ async function register(e) {
       usuario,
       email,
       clave,
-      confirmarClave, 
+      confirmarClave,
+      rol
     }),
   });
 

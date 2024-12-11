@@ -75,12 +75,53 @@ class AuthController{
     
         try {
             $data = json_decode(file_get_contents("php://input"));
+
+            if( empty($data->clave) || 
+                empty($data->confirmarClave) ||
+                empty($data->email) || 
+                empty($data->nombreCompleto) ||
+                empty($data->usuario)){
+                throw new Exception('Los campos son requeridos');
+            }
     
     
             // Comparar y validar los dos campos de la contraseña
             if($data->clave !== $data->confirmarClave){
                 throw new Exception('Las contraseñas no coinciden');
             }
+
+            if($this->usuario->validaUsuario($data->usuario)){
+                throw new Exception('El usuario ya existe');
+            }
+
+            //valida correo
+            if($this->usuario->validaEmail($data->email)){
+                throw new Exception('El correo ya existe');
+            }
+
+            if (!preg_match('/[!@#$%^&*(),.?":{}|<>]/',$data->clave)) {
+                throw new Exception('El Contraseña debe contener al menos un carácter especial');
+            }
+            //if (strlen($data->clave) < 8) {
+                //throw new Exception('El Contraseña debe tener al menos 8 caracteres');
+            //}
+
+            $usuarioData = [
+                "clave" => $data->clave,
+                "email" => $data->email,
+                "nombreCompleto" => $data->nombreCompleto,
+                "usuario" => $data->usuario,
+                "rol" => $data->rol,
+            ];
+
+            if($this->usuario->registrarUsuario($usuarioData)){
+                echo json_encode([
+                   'status' =>'success',
+                   'message' => 'Usuario registrado exitosamente'
+                ]);
+            }else{
+                throw new Exception('Error al registrar el usuario');
+            };
             
     
         } catch (Exception $e) {
