@@ -80,7 +80,8 @@ class AuthController{
                 empty($data->confirmarClave) ||
                 empty($data->email) || 
                 empty($data->nombreCompleto) ||
-                empty($data->usuario)){
+                empty($data->usuario)
+                ){
                 throw new Exception('Los campos son requeridos');
             }
     
@@ -108,22 +109,20 @@ class AuthController{
 
             $usuarioData = [
                 "clave" => $data->clave,
-                "email" => $data->email,
-                "nombreCompleto" => $data->nombreCompleto,
-                "usuario" => $data->usuario,
-                "rol" => $data->rol,
+                "email" =>  $data->email,
+                "nombreCompleto" =>  $data->nombreCompleto,
+                "usuario" =>  $data->usuario,
+                "rol" =>  $data->rol,
             ];
 
-            if($this->usuario->registrarUsuario($usuarioData)){
+            if($this->usuario->registarUsuario($usuarioData)){
                 echo json_encode([
-                   'status' =>'success',
-                   'message' => 'Usuario registrado exitosamente'
+                    'status' => 'success',
+                    'message' => 'Usuario registrado correctamente',
                 ]);
             }else{
-                throw new Exception('Error al registrar el usuario');
+                throw new Exception('Error al registrar Usuario');
             };
-            
-    
         } catch (Exception $e) {
             echo json_encode([
                 'status' => 'error',

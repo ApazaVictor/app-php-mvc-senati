@@ -53,39 +53,29 @@ class Usuario{
         
     }
 
-    public function registrarUsuario($usuarioData) {
-        // Verifica que los datos necesarios estén presentes
-        if (empty($usuarioData['usuario']) || empty($usuarioData['clave']) || empty($usuarioData['correo']) || empty($usuarioData['nombre_completo']) || empty($usuarioData['rol'])) {
-            return false;  // Devuelve falso si algún campo requerido está vacío
-        }
-    
-        // Consulta SQL
+    public function registarUsuario($usuarioData){
         $query = "
-        INSERT INTO usuario 
-        (nombre_usuario, clave, correo, nombre_completo, rol) 
-        VALUES 
-        (:nombre_usuario, :clave, :correo, :nombre_completo, :rol);
+            INSERT INTO usuario 
+            (nombre_usuario, clave, correo, nombre_completo, rol) 
+            VALUES 
+            (:nombre_usuario,:clave ,:correo ,:nombre_completo ,:rol )
         ";
-    
-        // Asigna los valores a las propiedades
+
         $this->nombre_usuario = $usuarioData['usuario'];
-        $this->clave = password_hash($usuarioData['clave'], PASSWORD_DEFAULT);
-        $this->correo = $usuarioData['correo'];
-        $this->nombre_completo = $usuarioData['nombre_completo'];
+        $this->clave = password_hash($usuarioData['clave'],PASSWORD_DEFAULT);
+        $this->correo = $usuarioData['email'];
+        $this->nombre_completo = $usuarioData['nombreCompleto'];
         $this->rol = $usuarioData['rol'];
-    
-        // Prepara la consulta y vincula los parámetros
+
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':nombre_usuario', $this->nombre_usuario);
-        $stmt->bindParam(':clave', $this->clave);
+        $stmt->bindParam(':clave',  $this->clave);
         $stmt->bindParam(':correo', $this->correo);
         $stmt->bindParam(':nombre_completo', $this->nombre_completo);
         $stmt->bindParam(':rol', $this->rol);
-    
-        // Ejecuta la consulta y devuelve el resultado
-        if ($stmt->execute()) {
+        if($stmt->execute()){
             return true;
-        } else {
+        }else{
             return false;
         }
     }
