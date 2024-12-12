@@ -55,6 +55,14 @@ $router->add('GET','/register','AuthController', 'showRegister');
 $router->add('POST','auth/login','AuthController', 'login');
 $router->add('POST','auth/register','AuthController', 'register');
 
+//HomeController
+$router->add('GET','/home','HomeController', 'index');
+
+
+//CRUD PRODUCTOS
+$router->add('GET','/productos','ProductoController', 'index');
+$router->add('GET','/productos/obtener-todo','ProductoController', 'obtener-todo');
+
 
 
 //Despachar la ruta
