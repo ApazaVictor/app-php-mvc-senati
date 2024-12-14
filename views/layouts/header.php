@@ -90,9 +90,3 @@ $userRole = $isAuthenticated ? $_SESSION['rol'] : '';
     <div class="container mt-4">
         <!-- Contenedor para alertas -->
         <div id="alertContainer"></div>
-
-
-
-
-
-

@@ -20,7 +20,7 @@ async function obtenerProducto() {
         
 
 
-        const tbody = document.getElementById('obtenerTodo');
+        const tbody = document.getElementById('productsTableBody');
         tbody.innerHTML = '';
         
         productos.forEach(product => {

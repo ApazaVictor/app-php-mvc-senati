@@ -1,5 +1,4 @@
 <?php
-
 class Usuario{
     private $conn;
 
@@ -18,7 +17,7 @@ class Usuario{
     }
 
     public function login($nombre_usuario, $clave_usuario){
-        $query = "select * from usuario  where nombre_usuario = :nombre_usuario";
+        $query = "select * from usuario where nombre_usuario = :nombre_usuario";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':nombre_usuario', $nombre_usuario);
         $stmt->execute();
@@ -26,10 +25,9 @@ class Usuario{
         if($stmt->rowCount() > 0){
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if(password_verify($clave_usuario, $row['clave'])){
+            if(password_verify($clave_usuario,$row['clave'])){
                 return $row;
             }
-
         }
         return false;
     }
@@ -50,7 +48,6 @@ class Usuario{
         $stmt->execute();
 
         return $stmt->rowCount()>0;
-        
     }
 
     public function registarUsuario($usuarioData){
@@ -79,5 +76,5 @@ class Usuario{
             return false;
         }
     }
-    
+
 }
