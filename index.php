@@ -1,10 +1,9 @@
 <?php
 //Manejo de errores
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors',1);
 
-
-//Cargar el archivo de configuración 
+//Cargar el archivo de configuración
 require_once 'config/config.php';
 
 //Autoload de clases
@@ -27,7 +26,7 @@ spl_autoload_register(function ($class_name) {
     }
 });
 
-//Crear una instancia el router
+//Crear una instancia del router
 $router = new Router();
 
 $public_routes = [
@@ -37,33 +36,29 @@ $public_routes = [
 ];
 
 //Obtener la ruta actual
-$current_route = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$current_route = str_replace (dirname($_SERVER['SCRIPT_NAME']), '', $current_route);
-//$current_route = lA RUTA DESPUES DE LA CARPETA PROYECTO.
-//echo $current_route;
-//var_dump(dirname($_SERVER['SCRIPT_NAME']);
-//var_dump($current_route);
-//die($$current_route);
+$current_route = parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
+$current_route = str_replace(dirname($_SERVER['SCRIPT_NAME']), '', $current_route);
+//$current_route = la ruta despues de la carpeta del proyecto.
 
 
-$router->add('GET','/web','WebController', 'index');
+$router->add('GET','/web','WebController','index');
+//login and Register
+$router->add('GET','/login','AuthController','showLogin');
+$router->add('GET','/register','AuthController','showRegister');
 
-//Login and register
-$router->add('GET','/login','AuthController', 'showLogin');
-$router->add('GET','/register','AuthController', 'showRegister');
-
-$router->add('POST','auth/login','AuthController', 'login');
-$router->add('POST','auth/register','AuthController', 'register');
+$router->add('POST','auth/login','AuthController','login');
+$router->add('POST','auth/register','AuthController','register');
 
 //HomeController
-$router->add('GET','/home','HomeController', 'index');
+$router->add('GET','/home','HomeController','index');
 
-
-//CRUD PRODUCTOS
-$router->add('GET','/productos','ProductoController', 'index');
-$router->add('GET','/productos/obtener-todo','ProductoController', 'obtener-todo');
-
-
+//CRUD PRODUCTOS//
+$router->add('GET','productos/','ProductoController','index');
+$router->add('GET','productos/obtener-todo','ProductoController','obtenerProducto');
+$router->add('POST','productos/guardar-producto','ProductoController','guardarProducto');
+$router->add('POST','productos/actualizar-proucto','ProductoController','actualizarProducto');
+$router->add('DELETE','productos/eliminar-producto','ProductoController','eliminarProducto');
+$router->add('GET','productos/buscar-producto','ProductoController','buscarProducto');
 
 //Despachar la ruta
 try {
@@ -80,20 +75,3 @@ try {
         ]);
     }
 }
-
-
-
-
-
-//include "./config/Database.php";
-
-
-//$db = new Database();
-//$valida = $db -> connect();
-
-//if ($valida) {
-    //echo "Connexion establecida correctamente";
-//}else{
-   // echo "Connexion no establecida";
-//}
-

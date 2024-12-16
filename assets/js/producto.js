@@ -1,10 +1,10 @@
 //OBTENER RODUCTO JS
 //assets/js/producto.js
 
-
-document.addEventListener('DOMContentLoaded', function() {
-    alert('Producto');
-});
+document.addEventListener('DOMContentLoaded',function(){
+    alert('Victor');
+    obtenerProducto();
+})
 
 async function obtenerProducto() {
     try {
@@ -17,8 +17,6 @@ async function obtenerProducto() {
 
         const productos = resultado.data;
         console.log(productos);
-        
-
 
         const tbody = document.getElementById('productsTableBody');
         tbody.innerHTML = '';
@@ -29,7 +27,7 @@ async function obtenerProducto() {
                 <td>${product.id_producto}</td>
                 <td>
                     ${product.imagen 
-                        ? `<img src="assets/uploads/products/${product.imagen}" 
+                        ? `<img src="assets/uploads/${product.imagen}" 
                             alt="${product.nombre}" 
                             class="img-thumbnail" 
                             style="max-width: 50px; max-height: 50px;">`
@@ -57,7 +55,6 @@ async function obtenerProducto() {
     }
 }
 
-
 function showAlert(type, message) {
     const alertContainer = document.getElementById('alertContainer');
     const alertDiv = document.createElement('div');
@@ -72,4 +69,55 @@ function showAlert(type, message) {
     setTimeout(() => {
         alertDiv.remove();
     }, 5000);
+}
+
+async function guardarProducto(){
+    try {
+        const formData = new FormData();
+        const nombre = document.getElementById('name').value;
+        const descripcion = document.getElementById('description').value;
+        const precio = document.getElementById('price').value;
+        const stock = document.getElementById('stock').value;
+        const imagenFile = document.getElementById('image').files[0];
+
+        formData.append('nombre', nombre);
+        formData.append('descripcion', descripcion);
+        formData.append('precio', precio);
+        formData.append('stock', stock);
+
+        if (imagenFile) {
+            formData.append('imagen', imagenFile);
+        }
+
+        // const url = editingProductId ? 'products/update' : 'products/create';
+        // if (editingProductId) {
+        //     formData.append('id', editingProductId);
+        // }
+
+        const response = await fetch('productos/guardar-producto', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.status === 'error') {
+            throw new Error(result.message);
+        }
+
+        // Cerrar el modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('productModal'));
+        modal.hide();
+
+        // Mostrar mensaje de éxito
+        showAlert('success', result.message);
+
+        // Recargar la lista de productos
+        obtenerProducto();
+
+        // Resetear el formulario
+        // resetForm();        
+    } catch (error) {
+        showAlert('error', error.message);
+    }
 }

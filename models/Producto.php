@@ -1,4 +1,3 @@
-
 <?php
 //models/Producto.php
 class Producto {
