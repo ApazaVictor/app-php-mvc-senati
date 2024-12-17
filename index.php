@@ -56,9 +56,13 @@ $router->add('GET','/home','HomeController','index');
 $router->add('GET','productos/','ProductoController','index');
 $router->add('GET','productos/obtener-todo','ProductoController','obtenerProducto');
 $router->add('POST','productos/guardar-producto','ProductoController','guardarProducto');
-$router->add('POST','productos/actualizar-proucto','ProductoController','actualizarProducto');
+$router->add('POST','productos/actualizar-producto','ProductoController','actualizarProducto');
 $router->add('DELETE','productos/eliminar-producto','ProductoController','eliminarProducto');
 $router->add('GET','productos/buscar-producto','ProductoController','buscarProducto');
+
+//Reporte en PDF y EXCEL
+$router->add('GET','reporte/pdf','ReporteController','ReportePDF');
+$router->add('GET','reportes/excel','ReporteController','ReporteExcel');
 
 //Despachar la ruta
 try {

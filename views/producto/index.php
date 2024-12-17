@@ -4,10 +4,10 @@
         <h2>Listado de Productos</h2>
     </div>
     <div class="col text-end">
-        <a href="<?= BASE_URL ?>/reports/pdf" class="btn btn-secondary">
+        <a href="<?= BASE_URL ?>/reporte/pdf" class="btn btn-secondary">
             <i class="fas fa-file-pdf"></i> Exportar PDF
         </a>
-        <a href="<?= BASE_URL ?>/reports/excel" class="btn btn-success">
+        <a href="<?= BASE_URL ?>/reporte/excel" class="btn btn-success">
             <i class="fas fa-file-excel"></i> Exportar Excel
         </a>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
@@ -107,7 +107,7 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <i class="fas fa-times"></i> Cerrar
                 </button>
-                <button type="button" class="btn btn-primary" onclick="saveProduct()">
+                <button type="button" class="btn btn-primary" onclick="almacenar()">
                     <i class="fas fa-save"></i> Guardar
                 </button>
             </div>
